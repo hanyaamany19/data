@@ -7,7 +7,7 @@ import seaborn as sns
 st.set_page_config(page_title="Bike Usage Data Analysis", layout="wide", initial_sidebar_state="expanded")
 
 # Membaca data dari CSV
-hour_df = pd.read_csv("hour1.csv", sep=";")
+hour_df = pd.read_csv("hour.csv")
 day_df = pd.read_csv("day.csv")
 
 st.write("Columns in day_df:", day_df.columns)
