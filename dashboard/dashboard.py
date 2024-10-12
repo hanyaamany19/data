@@ -4,88 +4,93 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Set style untuk seaborn
-st.set_page_config(page_title="Analisis Data Penggunaan Sepeda", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Bike Usage Data Analysis", layout="wide", initial_sidebar_state="expanded")
 
 # Membaca data dari CSV
-hour_df = pd.read_csv("hour.csv", sep=';')
-day_df = pd.read_csv("day.csv", sep=';')
+hour_df = pd.read_csv("hour1.csv", sep=";")
+day_df = pd.read_csv("day1.csv", sep=";")
+
+st.write("Columns in day_df:", day_df.columns)
+st.write("Columns in hour_df:", hour_df.columns)
+
+st.write(day_df.head())
+st.write(hour_df.head())
 
 # Rename kolom di day.csv untuk lebih mudah dipahami
-print(df.to_string())
-print(hr.to_string)
-
 day_df.rename(columns={
-    'season': 'musim',
-    'yr': 'tahun',
-    'mnth': 'bulan',
-    'weekday': 'hari_kerja',
-    'weathersit': 'kondisi_cuaca',
-    'temp': 'suhu',
-    'atemp': 'suhu_terasa',
-    'hum': 'kelembaban',
-    'windspeed': 'kecepatan_angin',
-    'casual': 'pengguna_casual',
-    'registered': 'pengguna_terdaftar',
-    'cnt': 'total_pengguna'
+    'season': 'season',
+    'yr': 'year',
+    'mnth': 'month',  # Mengganti 'mnth' menjadi 'month' untuk lebih mudah dipahami
+    'holiday': 'holiday',
+    'weekday': 'weekday',
+    'workingday': 'working_day',
+    'weathersit': 'weather_condition',
+    'temp': 'temperature',
+    'atemp': 'feels_like_temperature',
+    'hum': 'humidity',
+    'windspeed': 'wind_speed',
+    'casual': 'casual_users',
+    'registered': 'registered_users',
+    'cnt': 'total_users'
 }, inplace=True)
 
 # Mengubah angka menjadi keterangan
-day_df['bulan'] = day_df['bulan'].map({
+day_df['month'] = day_df['month'].map({
     1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
     7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'
 })
-day_df['musim'] = day_df['musim'].map({
-    1: 'Musim Semi', 2: 'Musim Panas', 3: 'Musim Gugur', 4: 'Musim Dingin'
+day_df['season'] = day_df['season'].map({
+    1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'
 })
-day_df['kondisi_cuaca'] = day_df['kondisi_cuaca'].map({
-    1: 'Cerah/Agak Berawan',
-    2: 'Berkabut/Berawan',
-    3: 'Salju/Rintik Hujan',
-    4: 'Cuaca Ekstrem'
+day_df['weather_condition'] = day_df['weather_condition'].map({
+    1: 'Clear/Partly Cloudy',
+    2: 'Foggy/Cloudy',
+    3: 'Snow/Light Rain',
+    4: 'Extreme Weather'
 })
 
-# 1. Pengaruh kondisi cuaca terhadap jumlah pengguna sepeda
-st.header("Pengaruh Kondisi Cuaca terhadap Penggunaan Sepeda")
+# 1. Effect of weather conditions on bike usage
+st.header("Effect of Weather Conditions on Bike Usage")
 
-# Scatter plot untuk suhu dan kelembaban terhadap jumlah pengguna
+# Scatter plot for temperature and humidity against total users
 fig, ax = plt.subplots(1, 2, figsize=(14, 6))
 
-# Plot 1: Suhu vs Total Pengguna
-sns.scatterplot(x='suhu', y='total_pengguna', data=day_df, ax=ax[0], hue='kondisi_cuaca', palette='viridis')
-ax[0].set_title('Pengaruh Suhu terhadap Jumlah Pengguna Sepeda')
-ax[0].set_xlabel('Suhu')
-ax[0].set_ylabel('Jumlah Pengguna')
+# Plot 1: Temperature vs Total Users
+sns.scatterplot(x='temperature', y='total_users', data=day_df, ax=ax[0], hue='weather_condition', palette='viridis')
+ax[0].set_title('Effect of Temperature on Bike Usage')
+ax[0].set_xlabel('Temperature')
+ax[0].set_ylabel('Total Users')
 
-# Plot 2: Kelembaban vs Total Pengguna
-sns.scatterplot(x='kelembaban', y='total_pengguna', data=day_df, ax=ax[1], hue='kondisi_cuaca', palette='coolwarm')
-ax[1].set_title('Pengaruh Kelembaban terhadap Jumlah Pengguna Sepeda')
-ax[1].set_xlabel('Kelembaban')
-ax[1].set_ylabel('Jumlah Pengguna')
+# Plot 2: Humidity vs Total Users
+sns.scatterplot(x='humidity', y='total_users', data=day_df, ax=ax[1], hue='weather_condition', palette='coolwarm')
+ax[1].set_title('Effect of Humidity on Bike Usage')
+ax[1].set_xlabel('Humidity')
+ax[1].set_ylabel('Total Users')
 
 st.pyplot(fig)
 
-# 2. Perbandingan pengguna sepeda pada hari kerja, hari libur, dan akhir pekan (hour.csv)
-st.header("Perbandingan Pengguna Sepeda: Hari Kerja vs Hari Libur/Akhir Pekan")
+# 2. Comparison of bike usage on weekdays, holidays, and weekends (hour.csv)
+st.header("Comparison of Bike Usage: Weekdays vs Holidays/Weekends")
 
-# Mengubah nama kolom di hour.csv
+# Rename columns in hour.csv
 hour_df.rename(columns={
-    'holiday': 'hari_libur',
-    'workingday': 'hari_bekerja',
-    'cnt': 'total_pengguna',
-    'weekday': 'hari_kerja',
-    'hr': 'jam'
+    'holiday': 'holiday',
+    'workingday': 'working_day',
+    'cnt': 'total_users',
+    'weekday': 'weekday',
+    'hr': 'hour'
 }, inplace=True)
 
-# Menambahkan kolom baru untuk kategori hari kerja, hari libur, dan akhir pekan
-hour_df['kategori_hari'] = hour_df.apply(
-    lambda row: 'Hari Libur' if row['hari_libur'] == 1 else 'Hari Kerja' if row['hari_bekerja'] == 1 else 'Akhir Pekan', axis=1
+# Add a new column for weekday, holiday, and weekend categories
+hour_df['day_category'] = hour_df.apply(
+    lambda row: 'Holiday' if row['holiday'] == 1 else 'Weekday' if row['working_day'] == 1 else 'Weekend', axis=1
 )
 
-# Membuat boxplot untuk perbandingan jumlah pengguna sepeda pada hari kerja, hari libur, dan akhir pekan
+# Create boxplot for comparing bike usage on weekdays, holidays, and weekends
 fig, ax = plt.subplots(figsize=(10, 6))
-sns.boxplot(x='kategori_hari', y='total_pengguna', data=hour_df, palette='Set2')
-ax.set_title('Perbandingan Jumlah Pengguna Sepeda pada Hari Kerja vs Hari Libur/Akhir Pekan')
-ax.set_xlabel('Kategori Hari')
-ax.set_ylabel('Jumlah Pengguna')
+sns.boxplot(x='day_category', y='total_users', data=hour_df, palette='Set2')
+ax.set_title('Comparison of Bike Usage on Weekdays vs Holidays/Weekends')
+ax.set_xlabel('Day Category')
+ax.set_ylabel('Total Users')
 
 st.pyplot(fig)
