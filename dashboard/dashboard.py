@@ -7,7 +7,7 @@ import seaborn as sns
 st.set_page_config(page_title="Analisis Data Penggunaan Sepeda", layout="wide", initial_sidebar_state="expanded")
 
 # Membaca data dari CSV
-hour_df = pd.read_csv("Bike-sharing-dataset/hour.csv")
+hour_df = pd.read_csv("hour.csv")
 
 # Menghapus kolom yang tidak diperlukan
 drop_cols = ['instant', 'dteday', 'windspeed']
