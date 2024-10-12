@@ -7,10 +7,11 @@ import seaborn as sns
 st.set_page_config(page_title="Analisis Data Penggunaan Sepeda", layout="wide", initial_sidebar_state="expanded")
 
 # Membaca data dari CSV
-hour_df = pd.read_csv("hour.csv")
-day_df = pd.read_csv("day.csv")
+hour_df = pd.read_csv("hour.csv", sep=';')
+day_df = pd.read_csv("day.csv", sep=';')
 
 # Rename kolom di day.csv untuk lebih mudah dipahami
+
 day_df.rename(columns={
     'season': 'musim',
     'yr': 'tahun',
