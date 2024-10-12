@@ -8,7 +8,7 @@ st.set_page_config(page_title="Bike Usage Data Analysis", layout="wide", initial
 
 # Membaca data dari CSV
 hour_df = pd.read_csv("hour1.csv", sep=";")
-day_df = pd.read_csv("day1.csv", sep=";")
+day_df = pd.read_csv("day.csv")
 
 st.write("Columns in day_df:", day_df.columns)
 st.write("Columns in hour_df:", hour_df.columns)
