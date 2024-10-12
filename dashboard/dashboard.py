@@ -11,6 +11,8 @@ hour_df = pd.read_csv("hour.csv", sep=';')
 day_df = pd.read_csv("day.csv", sep=';')
 
 # Rename kolom di day.csv untuk lebih mudah dipahami
+print(df.to_string())
+print(hr.to_string)
 
 day_df.rename(columns={
     'season': 'musim',
