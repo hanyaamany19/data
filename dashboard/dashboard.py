@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 # Set style untuk seaborn
 st.set_page_config(page_title="Analisis Data Penggunaan Sepeda", layout="wide", initial_sidebar_state="expanded")
